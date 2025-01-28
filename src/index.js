@@ -103,13 +103,28 @@ class Tree {
 
 		return this.root;
 	}
+
+	find(value) {
+		let current = this.root;
+
+		while (current && current.value !== value) {
+			if (current.value > value) {
+				current = current.left;
+			} else {
+				current = current.right;
+			}
+		}
+
+		if (!current) return null;
+
+		return current;
+	}
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const tree = new Tree(array);
 
-tree.deleteItem(8);
-tree.deleteItem(5);
-
-console.log(tree.root);
+console.log(tree.find(0));
+console.log(tree.find(9));
+console.log(tree.find(67));
