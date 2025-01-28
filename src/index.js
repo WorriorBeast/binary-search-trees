@@ -54,15 +54,62 @@ class Tree {
 
 		return this.root;
 	}
+
+	deleteItem(value) {
+		if (!this.root) return null;
+
+		let previous = null;
+		let current = this.root;
+
+		while (current && current.value !== value) {
+			previous = current;
+
+			if (current.value > value) {
+				current = current.left;
+			} else if (current.value < value) {
+				current = current.right;
+			}
+		}
+
+		if (!current) return this.root;
+
+		if (!current.left || !current.right) {
+			let newCurrent = !current.left ? current.right : current.left;
+
+			if (!previous) {
+				this.root = newCurrent;
+			} else if (previous.left === current) {
+				previous.left = newCurrent;
+			} else if (previous.right === current) {
+				previous.right = newCurrent;
+			}
+		} else if (current.left && current.right) {
+			let successor = current.right;
+			let successorParent = null;
+
+			while (successor.left) {
+				successorParent = successor;
+				successor = successor.left;
+			}
+
+			if (successorParent) {
+				successorParent.left = successor.right;
+			} else {
+				current.right = successor.right;
+			}
+
+			current.value = successor.value;
+		}
+
+		return this.root;
+	}
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+
 const tree = new Tree(array);
 
-console.log(tree.root);
-
-tree.insert(10);
-tree.insert(12);
-tree.insert(11);
+tree.deleteItem(8);
+tree.deleteItem(5);
 
 console.log(tree.root);
