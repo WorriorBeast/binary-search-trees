@@ -119,12 +119,34 @@ class Tree {
 
 		return current;
 	}
+
+	levelOrderIterative(callback) {
+		if (typeof callback !== 'function') {
+			throw new TypeError(
+				'A callback function must be passed into function',
+			);
+		}
+
+		if (!this.root) return null;
+
+		let queue = [this.root];
+
+		while (queue.length) {
+			const node = queue.shift();
+
+			callback(node);
+
+			if (node.left) queue.push(node.left);
+			if (node.right) queue.push(node.right);
+		}
+	}
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-
 const tree = new Tree(array);
 
-console.log(tree.find(0));
-console.log(tree.find(9));
-console.log(tree.find(67));
+tree.levelOrderIterative(displayValue);
+
+function displayValue(node) {
+	console.log(node.value);
+}
