@@ -226,13 +226,22 @@ class Tree {
 
 		traverse(this.root);
 	}
+
+	height(node) {
+		if (!node) {
+			return -1;
+		} else {
+			const leftHeight = this.height(node.left);
+			const rightHeight = this.height(node.right);
+
+			return Math.max(leftHeight, rightHeight) + 1;
+		}
+	}
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
 
-tree.postOrder(displayValue);
-
-function displayValue(node) {
-	console.log(node.value);
-}
+console.log(tree.height(tree.root.left.right)); // Expected output: 1
+console.log(tree.height(tree.root.right.left.left)); // Expected output: 0
+console.log(tree.height(tree.root)); //Expected output: 3
