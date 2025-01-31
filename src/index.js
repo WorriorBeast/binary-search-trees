@@ -140,12 +140,45 @@ class Tree {
 			if (node.right) queue.push(node.right);
 		}
 	}
+
+	levelOrderRecursive(callback) {
+		if (typeof callback !== 'function') {
+			throw new TypeError(
+				'A callback function must be passed into function',
+			);
+		}
+
+		if (!this.root) return null;
+
+		const CURRENTLEVEL = 0;
+		let result = [];
+
+		const traverse = (node, level) => {
+			if (!node) return;
+
+			if (!result[level]) result[level] = [];
+
+			result[level].push(node);
+
+			traverse(node.left, level + 1);
+			traverse(node.right, level + 1);
+		};
+
+		traverse(this.root, CURRENTLEVEL);
+
+		const mergedLevels = [].concat(...result);
+
+		mergedLevels.forEach((node) => {
+			callback(node);
+		});
+	}
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
 
 tree.levelOrderIterative(displayValue);
+tree.levelOrderRecursive(displayValue);
 
 function displayValue(node) {
 	console.log(node.value);
