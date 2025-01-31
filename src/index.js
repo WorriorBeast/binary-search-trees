@@ -190,12 +190,30 @@ class Tree {
 
 		traverse(this.root);
 	}
+
+	preOrder(callback) {
+		if (typeof callback !== 'function') {
+			throw new TypeError(
+				'A callback function must be passed into function',
+			);
+		}
+
+		const traverse = (node) => {
+			if (!node) return;
+
+			callback(node);
+			traverse(node.left);
+			traverse(node.right);
+		};
+
+		traverse(this.root);
+	}
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
 
-tree.inOrder(displayValue);
+tree.preOrder(displayValue);
 
 function displayValue(node) {
 	console.log(node.value);
