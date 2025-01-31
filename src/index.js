@@ -237,11 +237,36 @@ class Tree {
 			return Math.max(leftHeight, rightHeight) + 1;
 		}
 	}
+
+	// Write a depth(node) function that returns the given node’s depth. Depth is defined as the
+	// number of edges in the path from a given node to the tree’s root node.
+
+	depth(node) {
+		if (!node) return -1;
+
+		let current = this.root;
+		let depth = 0;
+
+		while (current && current !== node) {
+			if (current.value > node.value) {
+				current = current.left;
+				depth++;
+			} else {
+				current = current.right;
+				depth++;
+			}
+		}
+
+		if (!current) return -1;
+
+		return depth;
+	}
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
 
-console.log(tree.height(tree.root.left.right)); // Expected output: 1
-console.log(tree.height(tree.root.right.left.left)); // Expected output: 0
-console.log(tree.height(tree.root)); //Expected output: 3
+console.log(tree.depth(tree.root)); // Expected output: 0
+console.log(tree.depth({ value: 144, left: null, right: null })); // Expected output: -1
+console.log(tree.depth(tree.root.left.right.right)); // Expected output: -1
+console.log(tree.depth(tree.root.right.left.left)); //Expected output: 3
