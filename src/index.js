@@ -280,16 +280,59 @@ class Tree {
 	}
 }
 
-const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const tree = new Tree(array);
+const randomNum = () => {
+	return Math.floor(Math.random() * 100);
+};
 
-tree.insert(24);
-tree.insert(25);
-tree.insert(26);
+const generateArray = () => {
+	const array = [];
 
-console.log(tree.isBalanced()); // Expected output: false
+	for (let i = 0; i < 32; i++) {
+		array.push(randomNum());
+	}
 
-tree.rebalance();
+	return array;
+};
 
-console.log(tree.isBalanced()); // Expected output: true
-console.log(tree.root);
+const driver = () => {
+	const array = generateArray();
+	const tree = new Tree(array);
+	let preOrderArray = [];
+	let inOrderArray = [];
+	let postOrderArray = [];
+
+	tree.preOrder((node) => preOrderArray.push(node.value));
+	tree.inOrder((node) => inOrderArray.push(node.value));
+	tree.postOrder((node) => postOrderArray.push(node.value));
+
+	console.log(tree.isBalanced());
+	console.log(preOrderArray);
+	console.log(inOrderArray);
+	console.log(postOrderArray);
+
+	tree.insert(101);
+	tree.insert(102);
+	tree.insert(103);
+	tree.insert(104);
+	tree.insert(105);
+
+	console.log(tree.isBalanced());
+
+	tree.rebalance();
+
+	console.log(tree.isBalanced());
+
+	preOrderArray = [];
+	inOrderArray = [];
+	postOrderArray = [];
+
+	tree.preOrder((node) => preOrderArray.push(node.value));
+	tree.inOrder((node) => inOrderArray.push(node.value));
+	tree.postOrder((node) => postOrderArray.push(node.value));
+
+	console.log(preOrderArray);
+	console.log(inOrderArray);
+	console.log(postOrderArray);
+};
+
+driver();
