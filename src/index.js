@@ -238,9 +238,6 @@ class Tree {
 		}
 	}
 
-	// Write a depth(node) function that returns the given node’s depth. Depth is defined as the
-	// number of edges in the path from a given node to the tree’s root node.
-
 	depth(node) {
 		if (!node) return -1;
 
@@ -261,12 +258,31 @@ class Tree {
 
 		return depth;
 	}
+
+	isBalanced() {
+		if (!this.root) return false;
+
+		const leftHeight = this.height(this.root.left);
+		const rightHeight = this.height(this.root.right);
+
+		const heightDifference =
+			Math.max(leftHeight, rightHeight) - Math.min(leftHeight, rightHeight);
+
+		return heightDifference > 1 ? false : true;
+	}
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(array);
 
-console.log(tree.depth(tree.root)); // Expected output: 0
-console.log(tree.depth({ value: 144, left: null, right: null })); // Expected output: -1
-console.log(tree.depth(tree.root.left.right.right)); // Expected output: -1
-console.log(tree.depth(tree.root.right.left.left)); //Expected output: 3
+tree.insert(24);
+tree.insert(25);
+tree.insert(26);
+
+console.log(tree.isBalanced()); // Expected output: false
+
+tree.deleteItem(24);
+tree.deleteItem(25);
+tree.deleteItem(25);
+
+console.log(tree.isBalanced()); // Expected output: true
