@@ -270,6 +270,14 @@ class Tree {
 
 		return heightDifference > 1 ? false : true;
 	}
+
+	rebalance() {
+		const inOrderArray = [];
+
+		this.inOrder((node) => inOrderArray.push(node.value));
+
+		this.root = this.buildTree(inOrderArray);
+	}
 }
 
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -281,8 +289,7 @@ tree.insert(26);
 
 console.log(tree.isBalanced()); // Expected output: false
 
-tree.deleteItem(24);
-tree.deleteItem(25);
-tree.deleteItem(25);
+tree.rebalance();
 
 console.log(tree.isBalanced()); // Expected output: true
+console.log(tree.root);
